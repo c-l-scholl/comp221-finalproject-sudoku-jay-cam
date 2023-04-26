@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import './App.css'
 import undoArrow from './undo-arrow.png'
 
 function App() {
