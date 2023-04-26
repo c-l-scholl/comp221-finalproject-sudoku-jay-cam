@@ -20,7 +20,7 @@ function App() {
           </div>
         ))}
       </div>
-      <div className="w-1/5 mt-8 grid grid-cols-2">
+      <div className="w-1/5 mt-8 grid grid-cols-2 justify-items-center text-center">
         <div className="w-24 h-10 border-black border-2 rounded-lg grid place-items-center cursor-pointer hover:shadow-lg hover:bg-purple-100">
           <img src={undoArrow} className="w-5" />
         </div>
