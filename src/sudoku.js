@@ -1,3 +1,72 @@
+
+
+
+const initialBoard = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+const possNumArray = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+const shuffleArray = (numArray) => {
+  let copyArr = [...numArray]
+  let currIndex = copyArr.length
+  let randomIndex
+
+  while(currIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currIndex)
+    currIndex--
+
+    // swapping values
+    [copyArr[currIndex], copyArr[randomIndex]] = [copyArr[randomIndex], copyArr[currIndex]]
+  }
+
+  return copyArr
+}
+
+const fillBoard = (startingBoard) => {
+  const cell = findNextEmptyCell(startingBoard)
+
+  if(cell === false) {
+    return startingBoard 
+  } 
+
+  for(let num of shuffleArray(possNumArray)) {
+
+    // have some abort function in case code takes too long
+
+    if(checkSafe(startingBoard, cell, num)) {
+      startingBoard[cell.rowIndex][cell.collIndex] = num
+      if(fillBoard(startingBoard)) {
+        return startingBoard
+      } else {
+        startingBoard[cell.rowIndex][cell.collIndex] = 0
+      }
+    }
+
+    return false
+
+
+  }
+
+
+  
+}
+
+
+// check all safety methods
+
+const checkSafe = (array, currCell, testNum) => {
+  return checkRow(array, currCell, testNum) &&
+    checkColumn(array, currCell, testNum) &&
+    checkBox(array, currCell, testNum)
+}
+
 // currCell should be empty
 // if testNum doesn't exist in the row, index will be -1
 
@@ -21,3 +90,31 @@ const checkBox = (array, currCell, testNum) => {
   }
   return true
 }
+
+const findNextEmptyCell = (boardArr) => {
+	let nextEmptyCell = {
+		rowIndex: null, 
+		collIndex: null
+	}
+
+  boardArr.forEach( (row, rowIndex) => {
+    if(nextEmptyCell.collIndex !== null) {
+      return
+    }
+    
+    let nextZeroColumn = row.find((col) => col === 0)
+
+    if(nextZeroColumn === undefined) {
+      return
+    }
+    nextEmptyCell.rowIndex = rowIndex
+    nextEmptyCell.collIndex = rowIndex.indexOf(nextZeroColumn)
+  })
+
+  if(nextEmptyCell.collIndex !== null) {
+    return nextEmptyCell
+  }
+  return false
+}
+
+
