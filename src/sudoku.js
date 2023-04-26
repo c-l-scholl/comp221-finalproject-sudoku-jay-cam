@@ -12,5 +12,8 @@ const checkColumn = (array, currCell, testNum) => {
 };
 
 const checkBox = (array, currCell, testNum) => {
+	const boxRow = currCell.rowIndex % 3;
+	const boxCol = currCell.collIndex % 3;
 
+	for(let i = 0; i < )
 };
