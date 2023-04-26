@@ -1,15 +1,22 @@
+const rowLayout = new Array(9).fill(0)
+const boardLayout = new Array(9).fill(rowLayout)
+const puzzles = require('./puzzles.json')
 
-
-
-const initialBoard = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+// Get a random sudoku puzzle by randomize an index to get a string of 81 characters
+const getRandomPuzzle = () => {
+  const index = Math.floor(Math.random() * puzzles.length)
+  const puzzle = puzzles[index].puzzleString
+  let res = Array.from(Array(9), () => new Array(9).fill(0))
+  for (let i = 0; i < rowLayout.length; i++) {
+    // Separate the string of characters into rows
+    let row = puzzle.slice(9 * i, 9 * (i + 1))
+    for (let j = 0; j < rowLayout.length; j++) {
+      // Set cell values
+      res[i][j] = row[j]
+    }
+  }
+  return res
+}
 
 const possNumArray = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -29,7 +36,7 @@ const shuffleArray = (numArray) => {
   return copyArr
 }
 
-const fillBoard = (startingBoard) => {
+const solveBoard = (startingBoard) => {
   const cell = findNextEmptyCell(startingBoard)
 
   if(cell === false) {
@@ -42,22 +49,15 @@ const fillBoard = (startingBoard) => {
 
     if(checkSafe(startingBoard, cell, num)) {
       startingBoard[cell.rowIndex][cell.collIndex] = num
-      if(fillBoard(startingBoard)) {
+      if(solveBoard(startingBoard)) {
         return startingBoard
       } else {
         startingBoard[cell.rowIndex][cell.collIndex] = 0
       }
     }
-
     return false
-
-
   }
-
-
-  
 }
-
 
 // check all safety methods
 

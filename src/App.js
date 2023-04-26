@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import undoArrow from './undo-arrow.png'
+import sudoku from './sudoku.js'
 
 function App() {
   const rowLayout = new Array(9).fill(0)
@@ -20,6 +21,8 @@ function App() {
         res[i][j] = row[j]
       }
     }
+    // instead of above, call method from sudoku.js, then use setBoard
+
     setBoard(res)
   }
 
