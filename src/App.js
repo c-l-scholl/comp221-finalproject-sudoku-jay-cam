@@ -3,6 +3,7 @@ import undoArrow from './undo-arrow.png'
 
 function App() {
   const rows = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  const board = Array(9).fill(rows)
 
   return (
     <div className="App grid place-items-center">
@@ -10,9 +11,9 @@ function App() {
         Sudoku Solver
       </div>
       <div className="mt-6 w-1/3 border-2 border-black">
-        {rows.map((row, key) => (
+        {board.map((row, key) => (
           <div className="row font-bold text-xl text-black grid grid-cols-9 border-black border-b-[1px] [&:nth-child(3)]:border-b-2 [&:nth-child(6)]:border-b-2">
-            {rows.map((cell, key) => (
+            {row.map((cell, key) => (
               <div className="font-bold aspect-square text-xl text-black grid place-items-center border-r-[1px] border-black [&:nth-child(3)]:border-r-2 [&:nth-child(6)]:border-r-2">
                 {cell}
               </div>
