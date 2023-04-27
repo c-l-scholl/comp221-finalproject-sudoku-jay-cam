@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import undoArrow from './undo-arrow.png'
-import createRandomPuzzle from './sudoku.js'
+import getRandomPuzzle from './sudoku.js'
 
 function App() {
   const rowLayout = new Array(9).fill(0)
@@ -8,31 +8,14 @@ function App() {
   const [board, setBoard] = useState([...boardLayout])
   const puzzles = require('./puzzles.json')
 
-  // Get a random sudoku puzzle by randomize an index to get a string of 81 characters
-  // const getRandomPuzzle = () => {
-  //   // const index = Math.floor(Math.random() * puzzles.length)
-  //   // const puzzle = puzzles[index].puzzleString
-  //   // let res = Array.from(Array(9), () => new Array(9).fill(0))
-  //   // for (let i = 0; i < rowLayout.length; i++) {
-  //   //   // Separate the string of characters into rows
-  //   //   let row = puzzle.slice(9 * i, 9 * (i + 1))
-  //   //   for (let j = 0; j < rowLayout.length; j++) {
-  //   //     // Set cell values
-  //   //     res[i][j] = row[j]
-  //   //   }
-  //   // }
-
-  //   getRandomPuzzle(rowLayout)
-  //   // instead of above, call method from sudoku.js, then use setBoard
-
-  //   setBoard(res)
-  // }
-  //setBoard(createRandomPuzzle(rowLayout, puzzles))
+  const setBoardWithRandomPuzzle = () => {
+    let randomPuzzle = getRandomPuzzle(puzzles)
+    setBoard(randomPuzzle)
+  }
 
   // Generate a random sudoku puzzle as the page loads
   useEffect(() => {
-    //getRandomPuzzle()
-    setBoard(createRandomPuzzle(rowLayout, puzzles))
+    setBoardWithRandomPuzzle()
   }, [])
 
   return (
@@ -55,7 +38,7 @@ function App() {
       <div className="w-1/5 mt-8 grid grid-cols-2 justify-items-center text-center">
         <div
           className="w-24 h-10 border-black border-2 rounded-lg grid place-items-center cursor-pointer hover:shadow-lg hover:bg-purple-100"
-          onClick={getRandomPuzzle}
+          onClick={setBoardWithRandomPuzzle}
         >
           <img src={undoArrow} className="w-5" />
         </div>
