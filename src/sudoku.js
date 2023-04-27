@@ -1,9 +1,6 @@
-const rowLayout = new Array(9).fill(0)
-const boardLayout = new Array(9).fill(rowLayout)
-const puzzles = require('./puzzles.json')
 
 // Get a random sudoku puzzle by randomize an index to get a string of 81 characters
-const getRandomPuzzle = () => {
+export const createRandomPuzzle = (rowLayout, puzzles) => {
   const index = Math.floor(Math.random() * puzzles.length)
   const puzzle = puzzles[index].puzzleString
   let res = Array.from(Array(9), () => new Array(9).fill(0))

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import undoArrow from './undo-arrow.png'
-import sudoku from './sudoku.js'
+import createRandomPuzzle from './sudoku.js'
 
 function App() {
   const rowLayout = new Array(9).fill(0)
@@ -9,26 +9,30 @@ function App() {
   const puzzles = require('./puzzles.json')
 
   // Get a random sudoku puzzle by randomize an index to get a string of 81 characters
-  const getRandomPuzzle = () => {
-    const index = Math.floor(Math.random() * puzzles.length)
-    const puzzle = puzzles[index].puzzleString
-    let res = Array.from(Array(9), () => new Array(9).fill(0))
-    for (let i = 0; i < rowLayout.length; i++) {
-      // Separate the string of characters into rows
-      let row = puzzle.slice(9 * i, 9 * (i + 1))
-      for (let j = 0; j < rowLayout.length; j++) {
-        // Set cell values
-        res[i][j] = row[j]
-      }
-    }
-    // instead of above, call method from sudoku.js, then use setBoard
+  // const getRandomPuzzle = () => {
+  //   // const index = Math.floor(Math.random() * puzzles.length)
+  //   // const puzzle = puzzles[index].puzzleString
+  //   // let res = Array.from(Array(9), () => new Array(9).fill(0))
+  //   // for (let i = 0; i < rowLayout.length; i++) {
+  //   //   // Separate the string of characters into rows
+  //   //   let row = puzzle.slice(9 * i, 9 * (i + 1))
+  //   //   for (let j = 0; j < rowLayout.length; j++) {
+  //   //     // Set cell values
+  //   //     res[i][j] = row[j]
+  //   //   }
+  //   // }
 
-    setBoard(res)
-  }
+  //   getRandomPuzzle(rowLayout)
+  //   // instead of above, call method from sudoku.js, then use setBoard
+
+  //   setBoard(res)
+  // }
+  //setBoard(createRandomPuzzle(rowLayout, puzzles))
 
   // Generate a random sudoku puzzle as the page loads
   useEffect(() => {
-    getRandomPuzzle()
+    //getRandomPuzzle()
+    setBoard(createRandomPuzzle(rowLayout, puzzles))
   }, [])
 
   return (
