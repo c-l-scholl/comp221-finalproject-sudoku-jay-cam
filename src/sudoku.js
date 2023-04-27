@@ -22,7 +22,7 @@ const shuffleArray = (numArray) => {
   let currIndex = copyArr.length
   let randomIndex
 
-  while(currIndex != 0) {
+  while(currIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currIndex)
     currIndex--
 
