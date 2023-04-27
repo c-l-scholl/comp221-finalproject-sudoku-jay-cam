@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import undoArrow from './undo-arrow.png'
-import getRandomPuzzle from './sudoku.js'
+import getRandomPuzzle, { solveBoard } from './sudoku.js'
 
 function App() {
   const rowLayout = new Array(9).fill(0)
@@ -11,6 +11,11 @@ function App() {
   const setBoardWithRandomPuzzle = () => {
     let randomPuzzle = getRandomPuzzle(puzzles)
     setBoard(randomPuzzle)
+  }
+
+  const handleSolveBoard = () => {
+    let solvedBoard = solveBoard(board)
+    setBoard(solvedBoard)
   }
 
   // Generate a random sudoku puzzle as the page loads
@@ -29,7 +34,7 @@ function App() {
             <div className="row font-bold text-xl text-black grid grid-cols-9 border-black border-b-[1px] [&:nth-child(3)]:border-b-2 [&:nth-child(6)]:border-b-2">
               {row.map((cell, key) => (
                 <div className="font-bold aspect-square text-xl text-black grid place-items-center border-r-[1px] border-black [&:nth-child(3)]:border-r-2 [&:nth-child(6)]:border-r-2">
-                  {cell != 0 && cell}
+                  {cell !== 0 && cell}
                 </div>
               ))}
             </div>
@@ -42,7 +47,9 @@ function App() {
         >
           <img src={undoArrow} className="w-5" />
         </div>
-        <div className="w-24 h-10 border-black border-2 rounded-lg text-center grid place-items-center cursor-pointer hover:shadow-lg hover:bg-purple-100">
+        <div className="w-24 h-10 border-black border-2 rounded-lg text-center grid place-items-center cursor-pointer hover:shadow-lg hover:bg-purple-100"
+          onClick={handleSolveBoard}  
+        >
           Solve
         </div>
       </div>

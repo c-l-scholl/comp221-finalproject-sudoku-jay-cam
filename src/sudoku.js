@@ -35,15 +35,22 @@ const shuffleArray = (numArray) => {
   return copyArr
 }
 
-const solveBoard = (startingBoard) => {
+export const solveBoard = (startingBoard) => {
   const cell = findNextEmptyCell(startingBoard)
 
-  if (cell === false) {
+  // if cell is not empty, then we are done 
+  if (!cell) {
     return startingBoard
   }
 
+  let counter = 0
   for (let num of shuffleArray(possNumArray)) {
     // have some abort function in case code takes too long
+    counter++
+    if(counter >= 20_000_000) {
+      throw new Error ("Took too long to solve")
+    }
+    console.log(counter)
 
     if (checkSafe(startingBoard, cell, num)) {
       startingBoard[cell.rowIndex][cell.collIndex] = num
@@ -93,12 +100,12 @@ const checkBox = (array, currCell, testNum) => {
 
 const findNextEmptyCell = (boardArr) => {
   let nextEmptyCell = {
-    rowIndex: null,
-    collIndex: null,
+    rowIndex: "",
+    collIndex: "",
   }
 
   boardArr.forEach((row, rowIndex) => {
-    if (nextEmptyCell.collIndex !== null) {
+    if (nextEmptyCell.collIndex !== "") {
       return
     }
 
@@ -108,10 +115,10 @@ const findNextEmptyCell = (boardArr) => {
       return
     }
     nextEmptyCell.rowIndex = rowIndex
-    nextEmptyCell.collIndex = rowIndex.indexOf(nextZeroColumn)
+    nextEmptyCell.collIndex = row.indexOf(nextZeroColumn)
   })
 
-  if (nextEmptyCell.collIndex !== null) {
+  if (nextEmptyCell.collIndex !== "") {
     return nextEmptyCell
   }
   return false
