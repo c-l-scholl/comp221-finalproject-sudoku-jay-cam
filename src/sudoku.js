@@ -8,7 +8,7 @@ export const getRandomPuzzle = (puzzles) => {
     let row = puzzle.slice(9 * i, 9 * (i + 1))
     for (let j = 0; j < 9; j++) {
       // Set cell values
-      res[i][j] = row[j]
+      res[i][j] = parseInt(row[j])      
     }
   }
   return res
@@ -44,24 +44,27 @@ export const solveBoard = (startingBoard) => {
   if (!cell) {
     return startingBoard
   }
-
-  for (let num of shuffleArray(possNumArray)) {
+  console.log("cell is empty")
+  let num
+  let testNumArray = shuffleArray(possNumArray)
+  for (num of testNumArray) {
     
     // have some abort function in case code takes too long
     counter++
-    if(counter >= 20_000_000) {
+    if(counter >= 20000000) {
       throw new Error ("Took too long to solve")
     }
-    console.log(counter)
-
+    console.log("num: " + num)
     if (checkSafe(startingBoard, cell, num)) {
       startingBoard[cell.rowIndex][cell.collIndex] = num
+      console.log("set box " + cell.rowIndex + " by " + cell.collIndex + " to " + num)
       if (solveBoard(startingBoard)) {
         return startingBoard
       } else {
         startingBoard[cell.rowIndex][cell.collIndex] = 0
       }
-    }
+    } 
+    
     return false
   }
 }
@@ -105,14 +108,23 @@ const findNextEmptyCell = (boardArr) => {
     rowIndex: "",
     collIndex: "",
   }
+  console.log("findNextEmptyCell is running")
 
   boardArr.forEach((row, rowIndex) => {
     if (nextEmptyCell.collIndex !== "") {
       return
     }
+    console.log(row)
 
-    let nextZeroColumn = row.find((col) => col === 0)
-
+    let nextZeroColumn = row.findIndex((col) => col === 0)
+    // for(let i of row) {
+    //   console.log("i: " + i)
+    //   if(i === "0") {
+    //     nextZeroColumn = i
+    //     break
+    //   }
+    // }
+    console.log("nextZeroColumn: " + nextZeroColumn)
     if (nextZeroColumn === undefined) {
       return
     }
