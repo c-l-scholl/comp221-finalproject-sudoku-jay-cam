@@ -89,7 +89,7 @@ const checkRow = (array, currCell, testNum) => {
 // currCell should be empty
 // checking testNum doesn't exist in the column
 const checkColumn = (array, currCell, testNum) => {
-  return !array.some((row) => row[currCell.collIndex] === testNum)
+  return !array.some((row) => row[currCell.colIndex] === testNum)
 }
 
 const checkBox = (array, currCell, testNum) => {

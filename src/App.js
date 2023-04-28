@@ -55,7 +55,6 @@ function App() {
           Solve
         </div>
         <div className="cursor-pointer" onClick={() => console.log(board)}>
-          hi
         </div>
       </div>
     </div>
