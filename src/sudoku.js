@@ -37,7 +37,7 @@ const shuffleArray = (numArray) => {
 
 let counter = 0
 
-export const solveBoard = (startingBoard) => {
+const solveBoard = (startingBoard) => {
   const puzzle = [...startingBoard]
   const cell = findNextEmptyCell(puzzle)
 
@@ -124,4 +124,5 @@ const findNextEmptyCell = (boardArr) => {
   return false
 }
 
-export default getRandomPuzzle
+const functions = { getRandomPuzzle, solveBoard }
+export default functions
