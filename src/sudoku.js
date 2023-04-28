@@ -35,6 +35,8 @@ const shuffleArray = (numArray) => {
   return copyArr
 }
 
+let counter = 0
+
 export const solveBoard = (startingBoard) => {
   const cell = findNextEmptyCell(startingBoard)
 
@@ -43,8 +45,8 @@ export const solveBoard = (startingBoard) => {
     return startingBoard
   }
 
-  let counter = 0
   for (let num of shuffleArray(possNumArray)) {
+    
     // have some abort function in case code takes too long
     counter++
     if(counter >= 20_000_000) {
