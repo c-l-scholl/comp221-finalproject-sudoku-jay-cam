@@ -8,7 +8,7 @@ export const getRandomPuzzle = (puzzles) => {
     let row = puzzle.slice(9 * i, 9 * (i + 1))
     for (let j = 0; j < 9; j++) {
       // Set cell values
-      res[i][j] = parseInt(row[j])      
+      res[i][j] = parseInt(row[j])
     }
   }
   return res
@@ -21,12 +21,12 @@ const shuffleArray = (numArray) => {
   let currIndex = copyArr.length
   let randomIndex
 
-  while(currIndex !== 0) {
+  while (currIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currIndex)
     currIndex--
 
     // swapping values
-    [copyArr[currIndex], copyArr[randomIndex]] = [
+    ;[copyArr[currIndex], copyArr[randomIndex]] = [
       copyArr[randomIndex],
       copyArr[currIndex],
     ]
@@ -38,34 +38,34 @@ const shuffleArray = (numArray) => {
 let counter = 0
 
 export const solveBoard = (startingBoard) => {
-  const cell = findNextEmptyCell(startingBoard)
+  const puzzle = [...startingBoard]
+  const cell = findNextEmptyCell(puzzle)
 
-  // if cell is not empty, then we are done 
+  // if cell is not empty, then we are done
   if (!cell) {
-    return startingBoard
+    return puzzle
   }
-  console.log("cell is empty")
+  console.log('cell is empty')
   let num
   let testNumArray = shuffleArray(possNumArray)
   for (num of testNumArray) {
-    
     // have some abort function in case code takes too long
     counter++
-    if(counter >= 20000000) {
-      throw new Error ("Took too long to solve")
+    if (counter >= 20000000) {
+      throw new Error('Took too long to solve')
     }
-    console.log("num: " + num)
-    if (checkSafe(startingBoard, cell, num)) {
-      startingBoard[cell.rowIndex][cell.colIndex] = num
-      console.log("set box " + cell.rowIndex + " by " + cell.colIndex + " to " + num)
-      if (solveBoard(startingBoard)) {
-        return startingBoard
+    console.log('num: ' + num)
+    if (checkSafe(puzzle, cell, num)) {
+      puzzle[cell.rowIndex][cell.colIndex] = num
+      console.log(
+        'set box ' + cell.rowIndex + ' by ' + cell.colIndex + ' to ' + num,
+      )
+      if (solveBoard(puzzle)) {
+        return puzzle
       } else {
-        startingBoard[cell.rowIndex][cell.colIndex] = 0
+        puzzle[cell.rowIndex][cell.colIndex] = 0
       }
-    } 
-    
-    
+    }
   }
 }
 
@@ -93,8 +93,8 @@ const checkColumn = (array, currCell, testNum) => {
 }
 
 const checkBox = (array, currCell, testNum) => {
-  const boxRow = currCell.rowIndex - currCell.rowIndex % 3
-  const boxCol = currCell.colIndex - currCell.colIndex % 3
+  const boxRow = currCell.rowIndex - (currCell.rowIndex % 3)
+  const boxCol = currCell.colIndex - (currCell.colIndex % 3)
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
       if (array[boxRow + i][boxCol + j] === testNum) return false
@@ -108,7 +108,7 @@ const findNextEmptyCell = (boardArr) => {
     rowIndex: -1,
     colIndex: -1,
   }
-  console.log("findNextEmptyCell is running")
+  console.log('findNextEmptyCell is running')
 
   boardArr.forEach((row, rowIndex) => {
     if (nextEmptyCell.colIndex !== -1) {
@@ -124,7 +124,7 @@ const findNextEmptyCell = (boardArr) => {
     //     break
     //   }
     // }
-    console.log("nextZeroColumn: " + nextZeroColumn)
+    console.log('nextZeroColumn: ' + nextZeroColumn)
     if (nextZeroColumn === undefined) {
       return
     }

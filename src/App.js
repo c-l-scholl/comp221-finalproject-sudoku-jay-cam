@@ -48,10 +48,14 @@ function App() {
         >
           <img src={undoArrow} className="w-5" />
         </div>
-        <div className="w-24 h-10 border-black border-2 rounded-lg text-center grid place-items-center cursor-pointer hover:shadow-lg hover:bg-purple-100"
-          onClick={handleSolveBoard}  
+        <div
+          className="w-24 h-10 border-black border-2 rounded-lg text-center grid place-items-center cursor-pointer hover:shadow-lg hover:bg-purple-100"
+          onClick={handleSolveBoard}
         >
           Solve
+        </div>
+        <div className="cursor-pointer" onClick={() => console.log(board)}>
+          hi
         </div>
       </div>
     </div>
