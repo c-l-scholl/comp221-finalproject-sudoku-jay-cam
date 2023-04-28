@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import undoArrow from './undo-arrow.png'
 import getRandomPuzzle, { solveBoard } from './sudoku.js'
-import { wait } from '@testing-library/user-event/dist/utils'
 
 function App() {
   const rowLayout = new Array(9).fill(0)

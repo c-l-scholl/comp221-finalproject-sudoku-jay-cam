@@ -45,7 +45,6 @@ export const solveBoard = (startingBoard) => {
   if (!cell) {
     return puzzle
   }
-  console.log('cell is empty')
   let num
   let testNumArray = shuffleArray(possNumArray)
   for (num of testNumArray) {
@@ -54,12 +53,8 @@ export const solveBoard = (startingBoard) => {
     if (counter >= 20000000) {
       throw new Error('Took too long to solve')
     }
-    console.log('num: ' + num)
     if (checkSafe(puzzle, cell, num)) {
       puzzle[cell.rowIndex][cell.colIndex] = num
-      console.log(
-        'set box ' + cell.rowIndex + ' by ' + cell.colIndex + ' to ' + num,
-      )
       if (solveBoard(puzzle)) {
         return puzzle
       } else {
@@ -114,17 +109,8 @@ const findNextEmptyCell = (boardArr) => {
     if (nextEmptyCell.colIndex !== -1) {
       return // next iteration of forEach
     }
-    console.log(row)
 
     let nextZeroColumn = row.findIndex((col) => col === 0)
-    // for(let i of row) {
-    //   console.log("i: " + i)
-    //   if(i === "0") {
-    //     nextZeroColumn = i
-    //     break
-    //   }
-    // }
-    console.log('nextZeroColumn: ' + nextZeroColumn)
     if (nextZeroColumn === undefined) {
       return
     }
