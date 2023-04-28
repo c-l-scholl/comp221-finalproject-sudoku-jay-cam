@@ -26,7 +26,7 @@ const shuffleArray = (numArray) => {
     currIndex--
 
     // swapping values
-    ;[copyArr[currIndex], copyArr[randomIndex]] = [
+    [copyArr[currIndex], copyArr[randomIndex]] = [
       copyArr[randomIndex],
       copyArr[currIndex],
     ]
@@ -56,16 +56,16 @@ export const solveBoard = (startingBoard) => {
     }
     console.log("num: " + num)
     if (checkSafe(startingBoard, cell, num)) {
-      startingBoard[cell.rowIndex][cell.collIndex] = num
-      console.log("set box " + cell.rowIndex + " by " + cell.collIndex + " to " + num)
+      startingBoard[cell.rowIndex][cell.colIndex] = num
+      console.log("set box " + cell.rowIndex + " by " + cell.colIndex + " to " + num)
       if (solveBoard(startingBoard)) {
         return startingBoard
       } else {
-        startingBoard[cell.rowIndex][cell.collIndex] = 0
+        startingBoard[cell.rowIndex][cell.colIndex] = 0
       }
     } 
     
-    return false
+    
   }
 }
 
@@ -93,8 +93,8 @@ const checkColumn = (array, currCell, testNum) => {
 }
 
 const checkBox = (array, currCell, testNum) => {
-  const boxRow = currCell.rowIndex % 3
-  const boxCol = currCell.collIndex % 3
+  const boxRow = currCell.rowIndex - currCell.rowIndex % 3
+  const boxCol = currCell.colIndex - currCell.colIndex % 3
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
       if (array[boxRow + i][boxCol + j] === testNum) return false
@@ -105,14 +105,14 @@ const checkBox = (array, currCell, testNum) => {
 
 const findNextEmptyCell = (boardArr) => {
   let nextEmptyCell = {
-    rowIndex: "",
-    collIndex: "",
+    rowIndex: -1,
+    colIndex: -1,
   }
   console.log("findNextEmptyCell is running")
 
   boardArr.forEach((row, rowIndex) => {
-    if (nextEmptyCell.collIndex !== "") {
-      return
+    if (nextEmptyCell.colIndex !== -1) {
+      return // next iteration of forEach
     }
     console.log(row)
 
@@ -129,10 +129,10 @@ const findNextEmptyCell = (boardArr) => {
       return
     }
     nextEmptyCell.rowIndex = rowIndex
-    nextEmptyCell.collIndex = row.indexOf(nextZeroColumn)
+    nextEmptyCell.colIndex = nextZeroColumn
   })
 
-  if (nextEmptyCell.collIndex !== "") {
+  if (nextEmptyCell.colIndex !== -1) {
     return nextEmptyCell
   }
   return false

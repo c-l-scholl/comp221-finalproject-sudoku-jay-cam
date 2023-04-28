@@ -16,7 +16,7 @@ function App() {
 
   const handleSolveBoard = () => {
     let solvedBoard = solveBoard(board)
-    //setBoard(solvedBoard)
+    setBoard(solvedBoard)
   }
 
   // Generate a random sudoku puzzle as the page loads
