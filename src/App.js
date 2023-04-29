@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import JSConfetti from 'js-confetti'
 import undoArrow from './undo-arrow.png'
 import { getRandomPuzzle, solveBoard } from './sudoku.js'
 
@@ -7,6 +8,7 @@ function App() {
   const boardLayout = new Array(9).fill(rowLayout)
   const [board, setBoard] = useState([...boardLayout])
   const puzzles = require('./puzzles.json')
+  const jsConfetti = new JSConfetti()
 
   const setBoardWithRandomPuzzle = () => {
     let randomPuzzle = getRandomPuzzle(puzzles)
@@ -15,8 +17,8 @@ function App() {
 
   const handleSolveBoard = () => {
     let solvedBoard = solveBoard(board)
-    console.log(solvedBoard)
     setBoard(solvedBoard)
+    jsConfetti.addConfetti()
   }
 
   // Generate a random sudoku puzzle as the page loads
@@ -58,10 +60,6 @@ function App() {
         >
           Solve
         </div>
-        <div
-          className="cursor-pointer"
-          onClick={() => console.log(board)}
-        ></div>
       </div>
     </div>
   )
