@@ -54,14 +54,14 @@ const solveBoard = (startingBoard) => {
       throw new Error('Took too long to solve')
     }
     if (checkSafe(puzzle, cell, num)) {
-      puzzle[cell.rowIndex][cell.colIndex] = { value: num, solution: true }
+      puzzle[cell.rowIndex][cell.colIndex] = [num, true]
       console.log(
         'set box ' + cell.rowIndex + ' by ' + cell.colIndex + ' to ' + num,
       )
       if (solveBoard(puzzle)) {
         return puzzle
       } else {
-        puzzle[cell.rowIndex][cell.colIndex] = { value: 0, solution: false }
+        puzzle[cell.rowIndex][cell.colIndex] = [0, false]
       }
     }
   }
@@ -82,10 +82,7 @@ const checkSafe = (array, currCell, testNum) => {
 
 // Make a map/loop or something to loop through each object and find the value to see if it exists
 const checkRow = (array, currCell, testNum) => {
-  array[currCell.rowIndex].map((cell) => {
-    if (cell.value === testNum) return false
-  })
-  return true
+  return !array.some((row) => row[currCell.colIndex] === testNum)
 }
 
 // currCell should be empty
@@ -99,7 +96,7 @@ const checkBox = (array, currCell, testNum) => {
   const boxCol = currCell.colIndex - (currCell.colIndex % 3)
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      if (array[boxRow + i][boxCol + j] === testNum) return false
+      if (array[boxRow + i][boxCol + j][0] === testNum) return false
     }
   }
   return true
@@ -117,7 +114,7 @@ const findNextEmptyCell = (boardArr) => {
       return // next iteration of forEach
     }
 
-    let nextZeroColumn = row.findIndex((col) => col.value === 0)
+    let nextZeroColumn = row.findIndex((col) => col[0] === 0)
     console.log('nextZeroColumn: ' + nextZeroColumn)
     if (nextZeroColumn === undefined) {
       return

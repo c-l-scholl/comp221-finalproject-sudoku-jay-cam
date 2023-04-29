@@ -6,7 +6,6 @@ function App() {
   const rowLayout = new Array(9).fill(0)
   const boardLayout = new Array(9).fill(rowLayout)
   const [board, setBoard] = useState([...boardLayout])
-  const [solved, setSolved] = useState(false)
   const puzzles = require('./puzzles.json')
 
   const setBoardWithRandomPuzzle = () => {
@@ -37,10 +36,10 @@ function App() {
               {row.map((cell, key) => (
                 <div
                   className={`font-bold aspect-square text-xl text-black grid place-items-center border-r-[1px] border-black [&:nth-child(3)]:border-r-2 [&:nth-child(6)]:border-r-2 ${
-                    (cell == 0 && solved) == 'bg-black'
+                    cell[1] && 'bg-red-200'
                   }`}
                 >
-                  {cell !== 0 && cell}
+                  {cell[0] !== 0 && cell}
                 </div>
               ))}
             </div>
