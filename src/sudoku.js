@@ -82,7 +82,10 @@ const checkSafe = (array, currCell, testNum) => {
 
 // Make a map/loop or something to loop through each object and find the value to see if it exists
 const checkRow = (array, currCell, testNum) => {
-  return array[currCell.rowIndex].indexOf(testNum) === -1
+  array[currCell.rowIndex].map((cell) => {
+    if (cell.value === testNum) return false
+  })
+  return true
 }
 
 // currCell should be empty
