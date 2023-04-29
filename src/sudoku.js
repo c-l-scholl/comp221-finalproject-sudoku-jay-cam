@@ -1,3 +1,10 @@
+// Jay Tran and Camden Scholl
+// 4/29/2023
+// The program takes a random puzzle that has a guaranteed solution 
+// and solves it using backtracking. Each empty cell is tested to see
+// which value fits, and if it reaches a point where no value works,
+// it backtracks to previous cells to retry
+
 // Get a random sudoku puzzle by randomize an index to get a string of 81 characters
 export const getRandomPuzzle = (puzzles) => {
   const index = Math.floor(Math.random() * puzzles.length)
@@ -7,18 +14,18 @@ export const getRandomPuzzle = (puzzles) => {
     // Separate the string of characters into rows
     let row = puzzle.slice(9 * i, 9 * (i + 1))
     for (let j = 0; j < 9; j++) {
-      // Set cell values
+      // Set cell values, whether the cell is solved
+      // if cell is solved, it gets colored
       res[i][j] = [parseInt(row[j]), false]
     }
   }
   return res
 }
 
-const possNumArray = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-const shuffleArray = (numArray) => {
-  let copyArr = [...numArray]
-  let currIndex = copyArr.length
+// shuffles the array to randomize next tested number
+const shuffleArray = () => {
+  let numArray = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  let currIndex = numArray.length
   let randomIndex
 
   while (currIndex !== 0) {
@@ -26,38 +33,33 @@ const shuffleArray = (numArray) => {
     currIndex--
 
     // swapping values
-    ;[copyArr[currIndex], copyArr[randomIndex]] = [
-      copyArr[randomIndex],
-      copyArr[currIndex],
+    [numArray[currIndex], numArray[randomIndex]] = [
+      numArray[randomIndex],
+      numArray[currIndex],
     ]
   }
-
-  return copyArr
+  return numArray
 }
 
-let counter = 0
+// Solve the board
 
 export const solveBoard = (startingBoard) => {
   const puzzle = [...startingBoard]
   const cell = findNextEmptyCell(puzzle)
 
-  // if cell is not empty, then we are done
+  // no empty cells left, so we are done
   if (!cell) {
     return puzzle
   }
-  let num
-  let testNumArray = shuffleArray(possNumArray)
-  for (num of testNumArray) {
-    // have some abort function in case code takes too long
-    counter++
-    if (counter >= 20000000) {
-      throw new Error('Took too long to solve')
-    }
+
+  for (let num of shuffleArray()) {
+
+    // if num can go in cell, place num, label as part of solution
     if (checkSafe(puzzle, cell, num)) {
       puzzle[cell.rowIndex][cell.colIndex] = [num, true]
-      console.log(
-        'set box ' + cell.rowIndex + ' by ' + cell.colIndex + ' to ' + num,
-      )
+
+      // try filling in next cell
+      // if fails, backtrack and set cell value to zero
       if (solveBoard(puzzle)) {
         return puzzle
       } else {
@@ -65,6 +67,38 @@ export const solveBoard = (startingBoard) => {
       }
     }
   }
+}
+
+// iterate through the board to find next cell 
+// with no value
+
+const findNextEmptyCell = (boardArr) => {
+  let nextEmptyCell = {
+    rowIndex: -1,
+    colIndex: -1,
+  }
+
+  // this is a little slow, since we can't break out,
+  // but is still pretty fast since n < 100
+
+  boardArr.forEach((row, rowIndex) => {
+    if (nextEmptyCell.colIndex !== -1) {
+      return // next iteration of forEach
+    }
+    let nextZeroColumn = row.findIndex((col) => col[0] === 0)
+    if (nextZeroColumn === undefined) {
+      return // next iteration of forEach
+    }
+    nextEmptyCell.rowIndex = rowIndex
+    nextEmptyCell.colIndex = nextZeroColumn
+  })
+
+  if (nextEmptyCell.colIndex !== -1) {
+    return nextEmptyCell
+  }
+
+  // didn't find empty cell
+  return false
 }
 
 // check all safety methods
@@ -77,23 +111,23 @@ const checkSafe = (array, currCell, testNum) => {
   )
 }
 
-// currCell should be empty
-// if testNum doesn't exist in the row, index will be -1
+// if any cell in same row as currCell has a value of testNum,
+// then it is not safe to place 
 
-// Make a map/loop or something to loop through each object and find the value to see if it exists
 const checkRow = (array, currCell, testNum) => {
-  // array[currCell.rowIndex].map((cell) => {
-  //   if (cell.value === testNum) return false
-  // })
   return !array[currCell.rowIndex].some((cell) => cell[0] === testNum)
-  //return true
+  
 }
 
-// currCell should be empty
-// checking testNum doesn't exist in the column
+// if any cell in same column as currCell has a value of testNum,
+// then it is not safe to place 
+
 const checkColumn = (array, currCell, testNum) => {
   return !array.some((row) => row[currCell.colIndex][0] === testNum)
 }
+
+// check the 3x3 box that currCell is in
+// if any cell has a value of testNum, return false
 
 const checkBox = (array, currCell, testNum) => {
   const boxRow = currCell.rowIndex - (currCell.rowIndex % 3)
@@ -105,32 +139,3 @@ const checkBox = (array, currCell, testNum) => {
   }
   return true
 }
-
-const findNextEmptyCell = (boardArr) => {
-  let nextEmptyCell = {
-    rowIndex: -1,
-    colIndex: -1,
-  }
-  console.log('findNextEmptyCell is running')
-
-  boardArr.forEach((row, rowIndex) => {
-    if (nextEmptyCell.colIndex !== -1) {
-      return // next iteration of forEach
-    }
-
-    let nextZeroColumn = row.findIndex((col) => col[0] === 0)
-    console.log('nextZeroColumn: ' + nextZeroColumn)
-    if (nextZeroColumn === undefined) {
-      return
-    }
-    nextEmptyCell.rowIndex = rowIndex
-    nextEmptyCell.colIndex = nextZeroColumn
-  })
-
-  if (nextEmptyCell.colIndex !== -1) {
-    return nextEmptyCell
-  }
-  return false
-}
-
-

@@ -1,3 +1,7 @@
+// Jay Tran and Camden Scholl
+// 4/29/2023
+
+
 import React, { useState, useEffect } from 'react'
 import JSConfetti from 'js-confetti'
 import undoArrow from './undo-arrow.png'
@@ -18,7 +22,7 @@ function App() {
   const handleSolveBoard = () => {
     let solvedBoard = solveBoard(board)
     setBoard(solvedBoard)
-    jsConfetti.addConfetti()
+    jsConfetti.addConfetti() // celebrate
   }
 
   // Generate a random sudoku puzzle as the page loads
@@ -52,7 +56,7 @@ function App() {
           className="w-24 h-10 border-black border-2 rounded-lg grid place-items-center cursor-pointer hover:shadow-lg hover:bg-purple-100"
           onClick={setBoardWithRandomPuzzle}
         >
-          <img src={undoArrow} className="w-5" />
+          <img src={undoArrow} alt="New Puzzle" className="w-5" />
         </div>
         <div
           className="w-24 h-10 border-black border-2 rounded-lg text-center grid place-items-center cursor-pointer hover:shadow-lg hover:bg-purple-100"
