@@ -36,7 +36,7 @@ function App() {
               {row.map((cell, key) => (
                 <div
                   className={`font-bold aspect-square text-xl text-black grid place-items-center border-r-[1px] border-black [&:nth-child(3)]:border-r-2 [&:nth-child(6)]:border-r-2 ${
-                    cell[1] && 'bg-red-200'
+                    cell[1] && 'bg-purple-200'
                   }`}
                 >
                   {cell[0] !== 0 && cell}
