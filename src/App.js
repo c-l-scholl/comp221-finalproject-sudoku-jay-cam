@@ -7,6 +7,7 @@ function App() {
   const rowLayout = new Array(9).fill(0)
   const boardLayout = new Array(9).fill(rowLayout)
   const [board, setBoard] = useState([...boardLayout])
+  const [solved, setSolved] = useState(false)
   const puzzles = require('./puzzles.json')
 
   const setBoardWithRandomPuzzle = () => {
@@ -16,6 +17,7 @@ function App() {
 
   const handleSolveBoard = () => {
     let solvedBoard = solveBoard(board)
+    console.log(solvedBoard)
     setBoard(solvedBoard)
   }
 
@@ -34,7 +36,11 @@ function App() {
           board.map((row, key) => (
             <div className="row font-bold text-xl text-black grid grid-cols-9 border-black border-b-[1px] [&:nth-child(3)]:border-b-2 [&:nth-child(6)]:border-b-2">
               {row.map((cell, key) => (
-                <div className="font-bold aspect-square text-xl text-black grid place-items-center border-r-[1px] border-black [&:nth-child(3)]:border-r-2 [&:nth-child(6)]:border-r-2">
+                <div
+                  className={`font-bold aspect-square text-xl text-black grid place-items-center border-r-[1px] border-black [&:nth-child(3)]:border-r-2 [&:nth-child(6)]:border-r-2 ${
+                    (cell == 0 && solved) == 'bg-black'
+                  }`}
+                >
                   {cell !== 0 && cell}
                 </div>
               ))}
@@ -54,8 +60,10 @@ function App() {
         >
           Solve
         </div>
-        <div className="cursor-pointer" onClick={() => console.log(board)}>
-        </div>
+        <div
+          className="cursor-pointer"
+          onClick={() => console.log(board)}
+        ></div>
       </div>
     </div>
   )

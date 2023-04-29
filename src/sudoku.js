@@ -8,7 +8,7 @@ export const getRandomPuzzle = (puzzles) => {
     let row = puzzle.slice(9 * i, 9 * (i + 1))
     for (let j = 0; j < 9; j++) {
       // Set cell values
-      res[i][j] = parseInt(row[j])
+      res[i][j] = { value: parseInt(row[j]), solution: false }
     }
   }
   return res
@@ -56,14 +56,14 @@ export const solveBoard = (startingBoard) => {
     }
     console.log('num: ' + num)
     if (checkSafe(puzzle, cell, num)) {
-      puzzle[cell.rowIndex][cell.colIndex] = num
+      puzzle[cell.rowIndex][cell.colIndex] = { value: num, solution: true }
       console.log(
         'set box ' + cell.rowIndex + ' by ' + cell.colIndex + ' to ' + num,
       )
       if (solveBoard(puzzle)) {
         return puzzle
       } else {
-        puzzle[cell.rowIndex][cell.colIndex] = 0
+        puzzle[cell.rowIndex][cell.colIndex] = { value: 0, solution: false }
       }
     }
   }
@@ -82,6 +82,7 @@ const checkSafe = (array, currCell, testNum) => {
 // currCell should be empty
 // if testNum doesn't exist in the row, index will be -1
 
+// Make a map/loop or something to loop through each object and find the value to see if it exists
 const checkRow = (array, currCell, testNum) => {
   return array[currCell.rowIndex].indexOf(testNum) === -1
 }
@@ -116,14 +117,7 @@ const findNextEmptyCell = (boardArr) => {
     }
     console.log(row)
 
-    let nextZeroColumn = row.findIndex((col) => col === 0)
-    // for(let i of row) {
-    //   console.log("i: " + i)
-    //   if(i === "0") {
-    //     nextZeroColumn = i
-    //     break
-    //   }
-    // }
+    let nextZeroColumn = row.findIndex((col) => col.value === 0)
     console.log('nextZeroColumn: ' + nextZeroColumn)
     if (nextZeroColumn === undefined) {
       return
