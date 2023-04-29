@@ -8,7 +8,7 @@ export const getRandomPuzzle = (puzzles) => {
     let row = puzzle.slice(9 * i, 9 * (i + 1))
     for (let j = 0; j < 9; j++) {
       // Set cell values
-      res[i][j] = { value: parseInt(row[j]), solution: false }
+      res[i][j] = [parseInt(row[j]), false]
     }
   }
   return res
@@ -37,7 +37,7 @@ const shuffleArray = (numArray) => {
 
 let counter = 0
 
-const solveBoard = (startingBoard) => {
+export const solveBoard = (startingBoard) => {
   const puzzle = [...startingBoard]
   const cell = findNextEmptyCell(puzzle)
 
@@ -133,5 +133,4 @@ const findNextEmptyCell = (boardArr) => {
   return false
 }
 
-const functions = { getRandomPuzzle, solveBoard }
-export default functions
+
