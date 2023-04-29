@@ -82,16 +82,18 @@ const checkSafe = (array, currCell, testNum) => {
 
 // Make a map/loop or something to loop through each object and find the value to see if it exists
 const checkRow = (array, currCell, testNum) => {
-  array[currCell.rowIndex].map((cell) => {
-    if (cell.value === testNum) return false
-  })
-  return true
+  // array[currCell.rowIndex].map((cell) => {
+  //   if (cell.value === testNum) return false
+  // })
+  return !array[currCell.rowIndex].some((cell) => cell[0] === testNum)
+  //return true
 }
 
 // currCell should be empty
 // checking testNum doesn't exist in the column
 const checkColumn = (array, currCell, testNum) => {
-  return !array.some((row) => row[currCell.colIndex] === testNum)
+  return !array.some((row) => row[currCell.colIndex][0] === testNum
+  )
 }
 
 const checkBox = (array, currCell, testNum) => {
@@ -99,7 +101,7 @@ const checkBox = (array, currCell, testNum) => {
   const boxCol = currCell.colIndex - (currCell.colIndex % 3)
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      if (array[boxRow + i][boxCol + j] === testNum) return false
+      if (array[boxRow + i][boxCol + j].value === testNum) return false
     }
   }
   return true
