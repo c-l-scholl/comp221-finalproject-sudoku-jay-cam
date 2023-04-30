@@ -6,6 +6,10 @@ Our program uses backtracking to solve sudoku problems.
 
 To run our code:
 
+Make sure that you have node.js and react installed. 
+
+### npm i react
+
 ### npm install
 
 ### npm start
