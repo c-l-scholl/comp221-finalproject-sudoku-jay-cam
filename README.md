@@ -8,6 +8,8 @@ To run our code:
 
 Make sure that you have node.js and react installed. 
 
+Pull from master branch, not main.
+
 ### npm i react
 
 ### npm install
